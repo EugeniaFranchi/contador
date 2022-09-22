@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "./app/actions/CounterActions";
+import axios from "axios";
 
 const styles = {
   container: {
@@ -9,14 +10,41 @@ const styles = {
   }
 };
 
-const Counter = ({ increment, decrement }) => {
+const Counter = () => {
   const count = useSelector((store) => store.count.count);
   const dispatch = useDispatch();
+
+  const increment = () => {
+    return axios
+      .put(process.env.REACT_APP_URL + "/increment/", null)
+      .then(function (response) {
+        const count = response.data.count
+        console.log("Éxito!", count)
+        dispatch(actions.set(count))
+      })
+      .catch(function (response) {
+        console.log("Error", response.data)
+      });
+  }
+
+  const decrement = () => {
+    return axios
+      .put(process.env.REACT_APP_URL + "/decrement/", null)
+      .then(function (response) {
+        const count = response.data.count
+        console.log("Éxito!", count)
+        dispatch(actions.set(count))
+      })
+      .catch(function (response) {
+        console.log("Error", response.data)
+      });
+  }
+
   return (
     <div style={styles.container}>
       <h1>Counter: {count}</h1>
-      <button onClick={() => dispatch(actions.increment())}>+</button>
-      <button onClick={() => dispatch(actions.decrement())}>-</button>
+      <button onClick={() => increment()}>+</button>
+      <button onClick={() => decrement()}>-</button>
     </div>
   );
 };

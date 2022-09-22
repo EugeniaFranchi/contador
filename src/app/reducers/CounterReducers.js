@@ -1,4 +1,4 @@
-const initialState = { count: 0, payload: {} };
+const initialState = { count: 0 };
 
 export function counterReducer(state = initialState, action) {
   switch (action.type) {
@@ -12,10 +12,10 @@ export function counterReducer(state = initialState, action) {
         ...state,
         count: state.count - 1
       };
-    case "DATOS":
+    case "SET":
       return {
         ...state,
-        payload: action.payload
+        count: action.payload
       };
 
     default:
